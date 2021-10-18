@@ -49,6 +49,8 @@ public class AddAccount extends JFrame implements ActionListener {
                 Database.getPassword());
         database.createStatement();
 
+        textAccountid.setText(String.valueOf(format1.format(this.getLatestAccountId())));
+
         this.pack();
         this.setSize(350, 275);
         this.setResizable(false);
@@ -75,6 +77,8 @@ public class AddAccount extends JFrame implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Account Added", "Add Account", JOptionPane.INFORMATION_MESSAGE);
             buttonAdd.setEnabled(false);
+
+            textAccountid.setText(String.valueOf(format1.format(this.getLatestAccountId())));
 
             textFirstname.setText("");
             textLastname.setText("");
@@ -120,6 +124,17 @@ public class AddAccount extends JFrame implements ActionListener {
                 buttonAdd.setEnabled(true);
             }
         }
+    }
+
+    public int getLatestAccountId() {
+        String[] fields = { "IFNULL(max(id),0)" };
+        String[] wheres = {};
+        String[] values = {};
+        String alias = "Id";
+        database.select("accounts", fields, wheres, values, alias);
+        int id = Integer.parseInt(database.getStringFromResult(alias, true));
+        id++;
+        return id;
     }
 
     public void addActionListenerToElements() {
