@@ -38,6 +38,10 @@ public class AddAccount extends JFrame implements ActionListener {
         container = getContentPane();
         container.setLayout(null);
 
+        this.setComponentBounds();
+        this.addContainerComponents();
+        this.addActionListenerToElements();
+
         buttonAdd.setEnabled(false);
         textAccountid.setEditable(false);
 
@@ -118,4 +122,42 @@ public class AddAccount extends JFrame implements ActionListener {
         }
     }
 
+    public void addActionListenerToElements() {
+        buttonBack.addActionListener(this);
+        buttonAdd.addActionListener(this);
+        textFirstname.addActionListener(this);
+        textLastname.addActionListener(this);
+        textUsername.addActionListener(this);
+        textPassword.addActionListener(this);
+    }
+
+    private void setComponentBounds() {
+        labelAccountid.setBounds(10, 5, 100, 25);
+        textAccountid.setBounds(130, 5, 100, 25);
+        labelFirstname.setBounds(10, 35, 100, 25);
+        textFirstname.setBounds(130, 35, 150, 25);
+        labelLastname.setBounds(10, 65, 100, 25);
+        textLastname.setBounds(130, 65, 150, 25);
+        labelUsername.setBounds(10, 95, 100, 25);
+        textUsername.setBounds(130, 95, 150, 25);
+        labelPassword.setBounds(10, 125, 100, 25);
+        textPassword.setBounds(130, 125, 150, 25);
+        buttonAdd.setBounds(60, 175, 110, 50);
+        buttonBack.setBounds(180, 175, 110, 50);
+    }
+
+    private void addContainerComponents() {
+        container.add(labelAccountid);
+        container.add(textAccountid);
+        container.add(labelFirstname);
+        container.add(textFirstname);
+        container.add(labelLastname);
+        container.add(textLastname);
+        container.add(labelUsername);
+        container.add(textUsername);
+        container.add(labelPassword);
+        container.add(textPassword);
+        container.add(buttonAdd);
+        container.add(buttonBack);
+    }
 }
