@@ -2,9 +2,10 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 
-public class AddAccount extends JFrame {
+public class AddAccount extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     DecimalFormat format1 = new DecimalFormat("00000");
@@ -50,6 +51,71 @@ public class AddAccount extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         textFirstname.requestFocusInWindow();
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == buttonBack) {
+            this.dispose();
+        }
+
+        if (ae.getSource() == buttonAdd) {
+            String id = textAccountid.getText().trim();
+            String firstname = textFirstname.getText().toUpperCase().trim();
+            String lastname = textLastname.getText().toUpperCase().trim();
+            String username = textUsername.getText().trim();
+            String password = new String(textPassword.getPassword());
+
+            String[] columns = {};
+            String[] values = { id, firstname, lastname, username, Hash.toMD5(password) };
+            database.insert("accounts", columns, values);
+
+            JOptionPane.showMessageDialog(null, "Account Added", "Add Account", JOptionPane.INFORMATION_MESSAGE);
+            buttonAdd.setEnabled(false);
+
+            textFirstname.setText("");
+            textLastname.setText("");
+            textUsername.setText("");
+            textPassword.setText("");
+
+            textFirstname.requestFocusInWindow();
+        }
+
+        if (ae.getSource() == textFirstname) {
+            if (textFirstname.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Enter First Name", "Error", JOptionPane.ERROR_MESSAGE);
+                textFirstname.requestFocusInWindow();
+            } else {
+                textLastname.requestFocusInWindow();
+            }
+        }
+
+        if (ae.getSource() == textLastname) {
+            if (textLastname.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Enter Last Name", "Error", JOptionPane.ERROR_MESSAGE);
+                textLastname.requestFocusInWindow();
+            } else {
+                textUsername.requestFocusInWindow();
+            }
+        }
+
+        if (ae.getSource() == textUsername) {
+            if (textUsername.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Enter Username", "Error", JOptionPane.ERROR_MESSAGE);
+                textUsername.requestFocusInWindow();
+            } else {
+                textPassword.requestFocusInWindow();
+            }
+        }
+
+        if (ae.getSource() == textPassword) {
+            if (textPassword.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(null, "Enter Password", "Error", JOptionPane.ERROR_MESSAGE);
+                textPassword.requestFocusInWindow();
+            } else {
+                buttonAdd.requestFocusInWindow();
+                buttonAdd.setEnabled(true);
+            }
+        }
     }
 
 }
