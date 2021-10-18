@@ -57,6 +57,9 @@ public class MainMenu extends JFrame implements ActionListener {
         });
 
         this.setLayout(new BorderLayout());
+        this.setActionsForMenuItems();
+        this.addActionListenerToMenuItems();
+        this.addMenuItemToMenus();
 
         menuBar.add(menuFile);
         menuBar.add(menuAccounts);
@@ -81,6 +84,56 @@ public class MainMenu extends JFrame implements ActionListener {
         this.setVisible(true);
 
         login = new Login();
+    }
+
+    private void addMenuItemToMenus() {
+        menuFile.add(menuItemQuit);
+        menuAccounts.add(menuItemAdd);
+        menuAccounts.add(menuItemEdit);
+        menuAccounts.add(menuItemUpdate);
+        menuAccounts.add(menuItemDelete);
+        menuView.add(menuItemTable);
+    }
+
+    private void setActionsForMenuItems() {
+        Action quitApp = this.createAction("Quit");
+        Action addAccnt = this.createAction("Add");
+        Action editAccnt = this.createAction("Edit");
+        Action updateAccnt = this.createAction("Update");
+        Action deleteAccnt = this.createAction("Delete");
+
+        quitApp.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK));
+        addAccnt.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.CTRL_DOWN_MASK));
+        editAccnt.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, KeyEvent.CTRL_DOWN_MASK));
+        updateAccnt.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, KeyEvent.CTRL_DOWN_MASK));
+        deleteAccnt.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, KeyEvent.CTRL_DOWN_MASK));
+
+        menuItemQuit.setAction(quitApp);
+        menuItemAdd.setAction(addAccnt);
+        menuItemEdit.setAction(editAccnt);
+        menuItemUpdate.setAction(updateAccnt);
+        menuItemDelete.setAction(deleteAccnt);
+    }
+
+    private Action createAction(String value) {
+        Action action = new AbstractAction(value) {
+            private static final long serialVersionUID = 1L;
+
+            public void actionPerformed(ActionEvent ae) {
+
+            }
+        };
+
+        return action;
+    }
+
+    private void addActionListenerToMenuItems() {
+        menuItemQuit.addActionListener(this);
+        menuItemAdd.addActionListener(this);
+        menuItemEdit.addActionListener(this);
+        menuItemUpdate.addActionListener(this);
+        menuItemDelete.addActionListener(this);
+        menuItemTable.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent ae) {
