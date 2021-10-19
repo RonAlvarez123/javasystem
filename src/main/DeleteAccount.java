@@ -59,7 +59,7 @@ public class DeleteAccount extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == buttonSearch) {
-
+            this.openDatabase();
             String username = JOptionPane.showInputDialog(null, "Enter Username: ", "Message",
                     JOptionPane.QUESTION_MESSAGE);
             String[] fields = {};
@@ -80,6 +80,7 @@ public class DeleteAccount extends JFrame implements ActionListener {
         }
 
         if (evt.getSource() == buttonDelete) {
+            this.openDatabase();
 
             if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the record?", "Confirm",
                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
@@ -100,6 +101,12 @@ public class DeleteAccount extends JFrame implements ActionListener {
         if (evt.getSource() == buttonExit) {
             this.dispose();
         }
+    }
+
+    private void openDatabase() {
+        database = new Database(Database.getPort(), Database.getDBname(), Database.getUsername(),
+                Database.getPassword());
+        database.createStatement();
     }
 
     private void setComponentBounds() {
