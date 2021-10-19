@@ -58,11 +58,36 @@ public class ViewAccount extends JFrame {
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        this.populateTable();
+
         frame.add(scroll);
         frame.pack();
         frame.setSize(1300, 300);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void populateTable() {
+        database = new Database(Database.getPort(), Database.getDBname(), Database.getUsername(),
+                Database.getPassword());
+        database.createStatement();
+        database.all("accounts");
+
+        int i = 0;
+        for (; database.hasNext(); i++) {
+            model.addRow(new Object[] { database.getStringFromResult("id", false),
+                    database.getStringFromResult("firstname", false), database.getStringFromResult("lastname", false),
+                    database.getStringFromResult("username", false), database.getStringFromResult("password", false) });
+        }
+
+        if (i < 1) {
+            JOptionPane.showMessageDialog(null, "No Record Found", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String message = i == 1 ? " Record Found" : " Records Found";
+            JOptionPane.showMessageDialog(null, i + message, "Result", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        database.closeDatabase();
     }
 
 }
