@@ -86,6 +86,15 @@ public class Database {
         return query;
     }
 
+    public void all(String table) {
+        String query = String.format("SELECT * FROM %s", table);
+        try {
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - all method");
+        }
+    }
+
     public boolean hasNext() {
         boolean result = false;
         try {
