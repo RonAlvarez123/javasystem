@@ -7,6 +7,8 @@ import java.awt.*;
 public class ViewAccount extends JFrame {
     private static final long serialVersionUID = 1L;
 
+    private String colNames[] = { "Account Id", "First Name", "Last Name", "Username", "Password" };
+
     JLabel labelChoice = new JLabel("Choose Operation to Perform ?");
     DefaultTableModel model = new DefaultTableModel();
     JFrame frame = new JFrame("Database Results");
@@ -44,4 +46,23 @@ public class ViewAccount extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
+
+    public void showTable() {
+        frame.setLayout(new BorderLayout());
+        model.setColumnIdentifiers(colNames);
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        scroll.getViewport().add(table);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        frame.add(scroll);
+        frame.pack();
+        frame.setSize(1300, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
 }
