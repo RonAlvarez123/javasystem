@@ -3,8 +3,9 @@ package main;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.*;
 
-public class ViewAccount extends JFrame {
+public class ViewAccount extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     private String colNames[] = { "Account Id", "First Name", "Last Name", "Username", "Password" };
@@ -39,6 +40,9 @@ public class ViewAccount extends JFrame {
         container.add(labelChoice);
         container.add(buttonView);
         container.add(buttonExit);
+
+        buttonView.addActionListener(this);
+        buttonExit.addActionListener(this);
 
         this.pack();
         this.setSize(300, 150);
@@ -90,4 +94,14 @@ public class ViewAccount extends JFrame {
         database.closeDatabase();
     }
 
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == buttonView) {
+            this.showTable();
+            this.dispose();
+        }
+
+        if (ae.getSource() == buttonExit) {
+            this.dispose();
+        }
+    }
 }
