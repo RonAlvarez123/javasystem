@@ -2,8 +2,9 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class DeleteAccount extends JFrame {
+public class DeleteAccount extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     JLabel labelAccountid = new JLabel("Account Id");
@@ -43,6 +44,10 @@ public class DeleteAccount extends JFrame {
             textField.setEditable(false);
         }
 
+        buttonSearch.addActionListener(this);
+        buttonDelete.addActionListener(this);
+        buttonExit.addActionListener(this);
+
         buttonDelete.setEnabled(false);
 
         this.pack();
@@ -50,6 +55,51 @@ public class DeleteAccount extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == buttonSearch) {
+
+            String username = JOptionPane.showInputDialog(null, "Enter Username: ", "Message",
+                    JOptionPane.QUESTION_MESSAGE);
+            String[] fields = {};
+            String[] wheres = { "username" };
+            String[] values = { username };
+
+            database.select("accounts", fields, wheres, values, "");
+
+            if (database.hasNext()) {
+                for (int i = 0; i < textFields.length; i++) {
+                    textFields[i].setText(database.getStringFromResultInt(i + 1, false));
+                }
+                buttonDelete.setEnabled(true);
+                buttonSearch.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Username Does not Exist", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        if (evt.getSource() == buttonDelete) {
+
+            if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the record?", "Confirm",
+                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                String[] wheres = { "id" };
+                String[] values = { textAccountid.getText() };
+                database.delete("accounts", wheres, values);
+                JOptionPane.showMessageDialog(null, "Account Deleted", "Message", JOptionPane.INFORMATION_MESSAGE);
+
+                buttonDelete.setEnabled(false);
+                buttonSearch.setEnabled(true);
+
+                for (JTextField textField : textFields) {
+                    textField.setText("");
+                }
+            }
+        }
+
+        if (evt.getSource() == buttonExit) {
+            this.dispose();
+        }
     }
 
     private void setComponentBounds() {
