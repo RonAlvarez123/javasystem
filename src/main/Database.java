@@ -86,6 +86,18 @@ public class Database {
         return query;
     }
 
+    public boolean hasNext() {
+        boolean result = false;
+        try {
+            if (resultSet.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - hasNext method");
+        }
+        return result;
+    }
+
     public String getStringFromResult(String key, boolean next) {
         String resultString = "";
         try {
@@ -96,6 +108,21 @@ public class Database {
             resultString = resultSet.getString(key);
         } catch (SQLException e) {
             this.showError(e.getMessage(), "Error in Database class - getStringFromResult method");
+        }
+
+        return resultString;
+    }
+
+    public String getStringFromResultInt(int key, boolean next) {
+        String resultString = "";
+        try {
+            if (next) {
+                resultSet.next();
+            }
+
+            resultString = resultSet.getString(key);
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - getStringFromResultInt method");
         }
 
         return resultString;
@@ -116,6 +143,24 @@ public class Database {
             connection.close();
         } catch (SQLException e) {
             this.showError(e.getMessage(), "Error in Database class - closeDatabase method");
+        }
+    }
+
+    public void displayResultSet() {
+        try {
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1)
+                        System.out.print(" || ");
+                    String columnValue = resultSet.getString(i);
+                    System.out.print(rsmd.getColumnName(i) + ": " + columnValue);
+                }
+                System.out.println("");
+            }
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - displayResultSet method");
         }
     }
 
