@@ -95,6 +95,40 @@ public class Database {
         }
     }
 
+    public void insert(String table, String[] columns, String[] values) {
+        String query = String.format("INSERT INTO %s ", table);
+        int columnsLength = columns.length;
+        int valuesLength = values.length;
+
+        if (columnsLength > 0) {
+            String separateColumns = "";
+            for (int i = 0; i < columnsLength; i++) {
+                separateColumns += i == columnsLength - 1 ? columns[i] : columns[i] + ", ";
+            }
+            query = String.format(query + "(%s) ", separateColumns);
+        }
+
+        if (valuesLength < 1) {
+            System.err.println("Error in Database class - insert method: valuesLength is less than 1");
+            System.exit(0);
+        }
+
+        String separateValues = "";
+        for (int i = 0; i < valuesLength; i++) {
+            separateValues += i == valuesLength - 1 ? " '" + values[i] + "'" : "'" + values[i] + "', ";
+        }
+        query = String.format(query + "VALUES (%s)", separateValues);
+
+        // System.out.println(query);
+
+        try {
+            statement.executeUpdate(query);
+            System.out.println("Account Added");
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - insert method");
+        }
+    }
+
     public boolean hasNext() {
         boolean result = false;
         try {
