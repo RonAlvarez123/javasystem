@@ -2,8 +2,9 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class EditAccount extends JFrame {
+public class EditAccount extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     JFrame frame;
@@ -42,6 +43,11 @@ public class EditAccount extends JFrame {
             textField.setEditable(false);
         }
 
+        buttonSearch.addActionListener(this);
+        buttonEdit.addActionListener(this);
+        buttonUpdate.addActionListener(this);
+        buttonExit.addActionListener(this);
+
         buttonEdit.setEnabled(false);
         buttonUpdate.setEnabled(false);
 
@@ -50,6 +56,64 @@ public class EditAccount extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (actionEvent.getSource() == buttonSearch) {
+            database = new Database(Database.getPort(), Database.getDBname(), Database.getUsername(),
+                    Database.getPassword());
+            database.createStatement();
+
+            String username = JOptionPane.showInputDialog(null, "Enter Username: ", "Message",
+                    JOptionPane.QUESTION_MESSAGE);
+            String[] fields = {};
+            String[] wheres = { "username" };
+            String[] values = { username };
+
+            database.select("accounts", fields, wheres, values, "");
+
+            if (database.hasNext()) {
+                for (int i = 0; i < textFields.length; i++) {
+                    textFields[i].setText(database.getStringFromResultInt(i + 1, false));
+                }
+                buttonEdit.setEnabled(true);
+                buttonSearch.setEnabled(false);
+            } else {
+                JOptionPane.showMessageDialog(null, "Username Does not Exist", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        if (actionEvent.getSource() == buttonEdit) {
+            buttonUpdate.setEnabled(true);
+            buttonEdit.setEnabled(false);
+
+            textFirstname.setEditable(true);
+            textLastname.setEditable(true);
+            textUsername.setEditable(true);
+        }
+        if (actionEvent.getSource() == buttonUpdate) {
+            String id = textAccountid.getText().trim();
+            String firstname = textFirstname.getText().toUpperCase().trim();
+            String lastname = textLastname.getText().toUpperCase().trim();
+            String username = textUsername.getText().trim();
+
+            String[] updateFields = { "firstname", "lastname", "username" };
+            String[] updateValues = { firstname, lastname, username };
+            String[] wheres = { "id" };
+            String[] values = { id };
+            database.update("accounts", updateFields, updateValues, wheres, values);
+
+            JOptionPane.showMessageDialog(null, "Account Updated", "Update Account", JOptionPane.INFORMATION_MESSAGE);
+            buttonSearch.setEnabled(true);
+            buttonUpdate.setEnabled(false);
+
+            for (JTextField textField : textFields) {
+                textField.setEditable(false);
+                textField.setText("");
+            }
+        }
+        if (actionEvent.getSource() == buttonExit) {
+            this.dispose();
+        }
     }
 
     private void setComponentBounds() {
