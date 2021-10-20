@@ -35,6 +35,9 @@ public class EditAccount extends JFrame {
         container = getContentPane();
         container.setLayout(null);
 
+        this.setComponentBounds();
+        this.addContainerComponents();
+
         for (JTextField textField : textFields) {
             textField.setEditable(false);
         }
@@ -47,5 +50,39 @@ public class EditAccount extends JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    private void setComponentBounds() {
+        labelAccountid.setBounds(10, 5, 100, 25);
+        textAccountid.setBounds(130, 5, 75, 25);
+        labelFirstname.setBounds(10, 35, 100, 25);
+        textFirstname.setBounds(130, 35, 150, 25);
+        labelLastname.setBounds(10, 65, 100, 25);
+        textLastname.setBounds(130, 65, 150, 25);
+        labelUsername.setBounds(10, 95, 100, 25);
+        textUsername.setBounds(130, 95, 150, 25);
+        labelPassword.setBounds(10, 125, 100, 25);
+        textPassword.setBounds(130, 125, 300, 25);
+        buttonSearch.setBounds(10, 175, 110, 50);
+        buttonEdit.setBounds(130, 175, 110, 50);
+        buttonUpdate.setBounds(250, 175, 110, 50);
+        buttonExit.setBounds(370, 175, 110, 50);
+    }
+
+    private void addContainerComponents() {
+        container.add(labelAccountid);
+        container.add(textAccountid);
+        container.add(labelFirstname);
+        container.add(textFirstname);
+        container.add(labelLastname);
+        container.add(textLastname);
+        container.add(labelUsername);
+        container.add(textUsername);
+        container.add(labelPassword);
+        container.add(textPassword);
+        container.add(buttonSearch);
+        container.add(buttonEdit);
+        container.add(buttonUpdate);
+        container.add(buttonExit);
     }
 }
