@@ -129,6 +129,15 @@ public class Database {
         }
     }
 
+    public void delete(String table, String[] wheres, String[] values) {
+        String query = String.format("DELETE FROM %s " + this.getMultipleWhere(wheres, values, "delete"), table);
+        try {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - delete method");
+        }
+    }
+
     public boolean hasNext() {
         boolean result = false;
         try {
