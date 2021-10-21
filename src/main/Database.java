@@ -138,6 +138,32 @@ public class Database {
         }
     }
 
+    public void update(String table, String[] updateFields, String[] updateValues, String[] wheres, String[] values) {
+        String query = String.format("UPDATE %s SET ", table);
+
+        int updateFieldsLength = updateFields.length;
+        int updateValuesLength = updateValues.length;
+
+        if (updateFieldsLength != updateValuesLength) {
+            System.err.println("Error in Database class - update method: updateFieldsLength != updateValuesLength");
+            System.exit(0);
+        }
+
+        for (int i = 0; i < updateFieldsLength; i++) {
+            query = String.format(query + "%s = '%s'", updateFields[i], updateValues[i]);
+            query += (i < updateFieldsLength - 1) ? ", " : " ";
+        }
+
+        query += this.getMultipleWhere(wheres, values, "delete");
+        System.out.println(query);
+
+        try {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            this.showError(e.getMessage(), "Error in Database class - update method");
+        }
+    }
+
     public boolean hasNext() {
         boolean result = false;
         try {
