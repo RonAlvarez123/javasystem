@@ -60,7 +60,7 @@ public class Database {
         return total;
     }
 
-    public String select(String table, String[] fields, String[] wheres, String[] values, String alias) {
+    public void select(String table, String[] fields, String[] wheres, String[] values, String alias) {
         String query = "SELECT ";
         int fieldsLength = fields.length;
 
@@ -77,13 +77,12 @@ public class Database {
         }
 
         query = String.format(query + "FROM %s " + this.getMultipleWhere(wheres, values, "select"), table);
+        // System.out.println(query);
         try {
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             this.showError(e.getMessage(), "Error in Database class - select method");
         }
-        // System.out.println(query);
-        return query;
     }
 
     public void all(String table) {
