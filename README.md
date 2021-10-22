@@ -1,18 +1,23 @@
-## Getting Started
+# Instructions
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## To ensure that the connection to database will work:
 
-## Folder Structure
+1.  Check if MySQL in XAMPP is running. Verify that it has started running.
+2.  Check the port that MySQL is using. 
+-   If the port is 3306 then you do not need to change anything. 
+-   If the port is not 3306 then copy that port number.
+-   Go to Database.java File/Class inside the main package that is inside the "src" folder.
+-   Replace the value of `defaultPort` property to the port that MySQL is using in your device.
+3.  Create a database.
+-   Go to Database.java File/Class inside the main package that is inside the "src" folder.
+-   Replace the value of `defaultDBname` property to the name of the database that you have just created.
+-   Replace the value of `defaultUsername` property to the MySQL username that your device is using.
+-   Replace the value of `defaultPassword` property to the MySQL password that your device is using.
 
-The workspace contains two folders by default, where:
+### NOTE: Only the values of the specified properties inside the Database.java File/Class is needed to be replaced. You do not need to replace any other variable value in any other class or files.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## To initially login:
+-   Username: admin
+-   Password: admin123
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+### NOTE: The default admin account is automatically created. Hence, you just need to type the username and password that is provided above.
