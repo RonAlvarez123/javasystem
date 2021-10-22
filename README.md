@@ -14,10 +14,10 @@
 -   Replace the value of `defaultUsername` property to the MySQL username that your device is using.
 -   Replace the value of `defaultPassword` property to the MySQL password that your device is using.
 
-### NOTE: Only the values of the specified properties inside the Database.java File/Class is needed to be replaced. You do not need to replace any other variable value in any other class or files.
+##### NOTE: Only the values of the specified properties inside the Database.java File/Class is needed to be replaced. You do not need to replace any other variable value in any other class or files.
 
-## To initially login:
+### To initially login:
 -   Username: admin
 -   Password: admin123
 
-### NOTE: The default admin account is automatically created. Hence, you just need to type the username and password that is provided above.
+##### NOTE: The default admin account is automatically created. Hence, you just need to type the username and password that is provided above.
